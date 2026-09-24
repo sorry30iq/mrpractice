@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>3. Модель роста народонаселения (метод Эйлера)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+  canvas { border: 1px solid #999; }
+</style>
+</head>
+<body>
+<h2>Модель роста народонаселения: y' = k*y</h2>
+<p>Численное решение методом Эйлера: y(t+h) = y(t) + h * k * y(t).
+   Аналитическое решение: y(t) = y0 * e^(k*t) - экспонента.</p>
+<script>
+
+// параметры модели
+let k = 0.03;     // коэффициент роста (чем больше k, тем быстрее рост)
+let h = 0.5;      // шаг по времени (dt) - влияет на точность численного решения
+let y0 = 10;       // начальное значение популяции
+
+let points = [];  // накопленные точки (t, y) численного решения
+let t = 0;
+let y = y0;
+
+// масштабы для отображения на канвасе
+let scaleX = 4;
+let scaleY = 0.4;
+
+function setup() {
+  createCanvas(700, 400);
+  points.push({ t: t, y: y });
+}
+
+function draw() {
+  background(255);
+
+  // === шаг метода Эйлера ===
+  // y' = k*y  =>  следующее значение = текущее + шаг * производная в текущей точке
+  if (t < 150) {
+    let dy = k * y;         // производная (правая часть уравнения) в текущей точке
+    y = y + h * dy;         // шаг Эйлера
+    t = t + h;
+    points.push({ t: t, y: y });
+  }
+
+  // оси
+  stroke(200);
+  line(40, height - 40, width - 10, height - 40); // ось t
+  line(40, 10, 40, height - 40);                  // ось y
+
+  // кривая численного решения
+  noFill();
+  stroke(30, 120, 220);
+  strokeWeight(2);
+  beginShape();
+  for (let p of points) {
+    vertex(40 + p.t * scaleX, height - 40 - p.y * scaleY);
+  }
+  endShape();
+
+  // аналитическое решение (экспонента) для сравнения - пунктиром
+  stroke(220, 60, 60);
+  strokeWeight(1);
+  beginShape();
+  for (let i = 0; i <= t; i += h) {
+    let yExact = y0 * Math.exp(k * i);
+    vertex(40 + i * scaleX, height - 40 - yExact * scaleY);
+  }
+  endShape();
+
+  fill(0);
+  noStroke();
+  text('Синий - метод Эйлера (шаг h=' + h + '), красный - точное решение y0*e^(kt)', 45, 20);
+  text('t = ' + t.toFixed(1) + ', y = ' + y.toFixed(2), 45, 35);
+}
+</script>
+</body>
+</html>

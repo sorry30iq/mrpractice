@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>4. Физическая модель: закон Гука (метод Эйлера)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+  canvas { border: 1px solid #999; }
+</style>
+</head>
+<body>
+<h2>Закон Гука: m*x'' = -k*x (+ затухание)</h2>
+<p>Уравнение второго порядка сводим к системе двух уравнений первого порядка:
+   v' = -(k/m)*x - (c/m)*v ,  x' = v, и решаем методом Эйлера.</p>
+<script>
+
+// параметры физической модели
+let k = 2;       // жёсткость пружины
+let m = 1;       // масса груза
+let c = 0.15;    // коэффициент затухания (0 - незатухающие колебания)
+let h = 0.05;    // шаг по времени
+
+let x = 3;       // начальное отклонение от положения равновесия
+let v = 0;       // начальная скорость
+
+let t = 0;
+let history = []; // для графика x(t)
+
+let originX = 350; // визуальный центр (положение равновесия) на канвасе
+
+function setup() {
+  createCanvas(700, 400);
+}
+
+function draw() {
+  background(255);
+
+  // === шаг метода Эйлера для системы x' = v ,  v' = -(k/m)x - (c/m)v ===
+  let a = -(k / m) * x - (c / m) * v; // ускорение (вторая производная x)
+  v = v + h * a;                       // обновляем скорость
+  x = x + h * v;                       // обновляем позицию
+  t += h;
+
+  history.push(x);
+  if (history.length > 600) history.shift();
+
+  // рисуем груз на пружине (верхняя часть канваса)
+  let px = originX + x * 40;
+  stroke(120);
+  line(originX, 60, px, 60);
+  fill(220, 80, 60);
+  noStroke();
+  circle(px, 60, 24);
+  stroke(0);
+  line(0, 60, width, 60);
+
+  // график x(t) снизу
+  noFill();
+  stroke(30, 120, 220);
+  beginShape();
+  for (let i = 0; i < history.length; i++) {
+    vertex(i, 250 - history[i] * 40);
+  }
+  endShape();
+  stroke(200);
+  line(0, 250, width, 250);
+
+  fill(0);
+  noStroke();
+  text('t = ' + t.toFixed(2) + '  x = ' + x.toFixed(3) + '  (c=' + c + ' - затухание; c=0 - без затухания)', 10, 320);
+}
+</script>
+</body>
+</html>
