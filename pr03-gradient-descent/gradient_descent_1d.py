@@ -10,7 +10,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# параметры функции (те же, что исследовались в DESMOS, п.3.1)
+
 a = 2.4
 b = 4.8
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     x_min, history = gradient_descent(x0, lr, n_iter)
     print(f"\nНайденный минимум: x = {x_min:.5f}, f(x) = {objective(x_min):.5f}")
 
-    # график функции и траектории спуска
+
     xs = np.linspace(-2, 10, 400)
     plt.figure(figsize=(7, 4))
     plt.plot(xs, objective(xs), label="f(x)")

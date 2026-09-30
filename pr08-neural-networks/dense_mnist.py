@@ -8,20 +8,20 @@ from keras.datasets import mnist
 from keras import models, layers
 from keras.utils import to_categorical
 
-# === 3.2: загружаем датасет ===
+# загружаем датасет
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 print("train_images.shape:", train_images.shape)  # (60000, 28, 28)
 print("количество меток:", len(train_labels))
 
-# === 3.3: создаём модель ===
+# создаём модель
 model = models.Sequential()
 model.add(layers.Dense(512, activation="relu", input_shape=(28 * 28,)))
 model.add(layers.Dense(10, activation="softmax"))
 model.summary()
 
-# === 3.4: компилируем и готовим данные ===
-# бинарная классификация -> sigmoid + binary_crossentropy
-# многоклассовая однозначная классификация (наш случай, 10 цифр) -> softmax + categorical_crossentropy
+
+# бинарная классификация  sigmoid + binary_crossentropy
+# многоклассовая однозначная классификация   softmax + categorical_crossentropy
 model.compile(optimizer="rmsprop",
               loss="categorical_crossentropy",
               metrics=["accuracy"])
@@ -32,7 +32,7 @@ test_images = test_images.reshape((10000, 28 * 28)).astype("float32") / 255
 train_labels_cat = to_categorical(train_labels)
 test_labels_cat = to_categorical(test_labels)
 
-# === 3.5: обучаем и оцениваем ===
+#обучаем и оцениваем
 history = model.fit(train_images, train_labels_cat, epochs=5, batch_size=128)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels_cat)

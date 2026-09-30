@@ -33,7 +33,7 @@ def gradient_descent_2d(point0, lr, n_iter, bounds=(-3, 3)):
     for i in range(n_iter):
         grad = gradient(*point)
         point = point - lr * grad
-        # ограничиваем область определения, как указано в задании
+
         point = np.clip(point, bounds[0], bounds[1])
         history.append(point.copy())
         if i % 5 == 0 or i == n_iter - 1:
@@ -44,8 +44,7 @@ def gradient_descent_2d(point0, lr, n_iter, bounds=(-3, 3)):
 
 
 if __name__ == "__main__":
-    # несколько стартовых точек - функция невыпуклая, есть несколько локальных минимумов,
-    # поэтому результат может зависеть от начальной точки (это стоит отметить в отчёте)
+
     starts = [(-2.5, 2.0), (1.5, -1.0), (0.5, 0.5)]
 
     best_point, best_value = None, np.inf
@@ -59,7 +58,7 @@ if __name__ == "__main__":
     print(f"Лучший найденный минимум: x={best_point[0]:.5f}, y={best_point[1]:.5f}, "
           f"f={best_value:.5f}")
 
-    # визуализация поверхности функции
+
     xs = np.linspace(-3, 3, 100)
     ys = np.linspace(-3, 3, 100)
     X, Y = np.meshgrid(xs, ys)

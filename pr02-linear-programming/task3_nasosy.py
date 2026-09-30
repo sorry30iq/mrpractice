@@ -15,7 +15,7 @@ x1, x2 - целые неотрицательные числа (насосы шт
 import numpy as np
 from scipy.optimize import milp, LinearConstraint, Bounds
 
-# максимизируем 50*x1 + 200*x2  =>  milp минимизирует, поэтому знак минус
+
 c = np.array([-50, -200])
 
 A = np.array([
@@ -28,7 +28,7 @@ b_upper = np.array([6, 8, 12, 9])
 
 constraints = LinearConstraint(A, -np.inf, b_upper)
 bounds = Bounds(lb=0, ub=np.inf)
-integrality = np.array([1, 1])  # обе переменные - целые
+integrality = np.array([1, 1])
 
 result = milp(c, constraints=constraints, bounds=bounds, integrality=integrality)
 

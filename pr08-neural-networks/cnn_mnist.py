@@ -9,7 +9,7 @@ from keras import layers, models
 from keras.datasets import mnist
 from keras.utils import to_categorical
 
-# === 4.1: свёрточные слои ===
+# свёрточные слои
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation="relu", input_shape=(28, 28, 1)))
 model.add(layers.MaxPooling2D((2, 2)))
@@ -17,14 +17,14 @@ model.add(layers.Conv2D(64, (3, 3), activation="relu"))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(64, (3, 3), activation="relu"))
 
-# === 4.2: полносвязные слои классификации ===
+# полносвязные слои классификации
 model.add(layers.Flatten())
 model.add(layers.Dense(64, activation="relu"))
 model.add(layers.Dense(10, activation="softmax"))
 
 model.summary()
 
-# === 4.3: загружаем датасет и обучаем ===
+# загружаем датасет и обучаем
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 
 train_images = train_images.reshape((60000, 28, 28, 1)).astype("float32") / 255
@@ -39,7 +39,7 @@ model.compile(optimizer="rmsprop",
 
 model.fit(train_images, train_labels_cat, epochs=5, batch_size=64)
 
-# === 4.4: оцениваем и сравниваем с Dense-моделью ===
+#оцениваем и сравниваем с Dense-моделью
 test_loss, test_acc = model.evaluate(test_images, test_labels_cat)
 print(f"\nCNN test_acc: {test_acc:.4f}")
 print(f"CNN test_loss: {test_loss:.4f}")

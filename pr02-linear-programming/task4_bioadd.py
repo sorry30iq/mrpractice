@@ -13,7 +13,7 @@
 
 from scipy.optimize import linprog
 
-c = [-4, -7.2]  # знак минус, т.к. linprog минимизирует
+c = [-4, -7.2]
 
 A_ub = [
     [16, 4],  # витамин A

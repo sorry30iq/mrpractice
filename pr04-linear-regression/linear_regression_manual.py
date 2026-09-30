@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 np.random.seed(42)
 
-# === 3.1. Генерируем датасет ===
+# Генерируем датасет
 x = np.random.randn(1, 100)
 a_true, b_true = 2, 1
 eps = 0.1 * np.random.randn(1, 100)      # шум
@@ -21,7 +21,7 @@ train_idx, test_idx = idx[:70], idx[70:]
 x_train, y_train = x[0][train_idx], y[0][train_idx]
 x_test, y_test = x[0][test_idx], y[0][test_idx]
 
-# === 3.2. Обучение модели градиентным спуском ===
+# Обучение модели градиентным спуском
 a = np.random.randn(1)
 b = np.random.rand(1)
 lr = 10e-3
@@ -46,12 +46,12 @@ for ep in range(epochs):
 print(f"\nИстинные параметры: a={a_true}, b={b_true}")
 print(f"Обученные параметры: a={a[0]:.4f}, b={b[0]:.4f}")
 
-# оценка на тесте
+
 y_test_pred = b + a * x_test
 test_mse = ((y_test_pred - y_test) ** 2).mean()
 print(f"MSE на тестовой выборке: {test_mse:.5f}")
 
-# === графики ===
+# графики
 fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
 axes[0].plot(loss_history)
